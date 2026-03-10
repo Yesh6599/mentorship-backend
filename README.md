@@ -1,215 +1,288 @@
-Mentorship Backend API
+# Mentorship Backend API
 
-This project is a backend API for a mentorship platform where:
+A backend API for a simplified mentorship platform where **Parents, Students, and Mentors** interact.
 
-Parents can create student accounts
+Includes:
 
-Mentors can create lessons
+- JWT Authentication
+- Student management
+- Lesson management
+- Booking system
+- AI lesson summarization API
 
-Parents can book lessons for students
+---
 
-The system also includes an AI endpoint to summarize lesson content
+## Table of Contents
 
-This project demonstrates backend development skills including authentication, API design, database management, and AI integration.
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Setup Instructions](#setup-instructions)
+- [Environment Variables](#environment-variables)
+- [API Endpoints](#api-endpoints)
+- [LLM Summarization](#llm-summarization)
+- [Assumptions & Notes](#assumptions--notes)
 
-Tech Stack
+---
 
-Node.js
+## Features
 
-Express.js
+### 1. Authentication
+- User signup
+- User login
+- Secure password hashing
+- JWT token authentication
 
-MongoDB
+### 2. Student Management
+Parents can create and manage student profiles.
 
-JWT Authentication
+### 3. Lesson Management
+Mentors can create and manage lessons.
 
-bcrypt (password hashing)
+### 4. Booking System
+Parents can book lessons for students.
 
-LLM API (Gemini / OpenAI)
+### 5. AI Lesson Summarization
+Uses an LLM API to generate short summaries of lesson content.
 
-API testing using Postman
+---
 
-Features
+## Tech Stack
 
-User Signup & Login
+Backend technologies used in this project:
 
-JWT Authentication
+- Node.js
+- Express.js
+- MongoDB
+- JWT Authentication
+- bcrypt password hashing
+- AI API integration
+- API testing using Postman
 
-Student Management
+---
 
-Lesson Management
+## Setup Instructions
 
-Lesson Booking System
+### 1 Clone the Repository
 
-AI Lesson Content Summarization
-
-Project Structure
-mentorship-backend
-│
-├── controllers
-├── middleware
-├── models
-├── routes
-│
-├── server.js
-├── package.json
-├── package-lock.json
-├── .env
-├── .gitignore
-└── README.md
-Installation & Setup
-1 Clone the Repository
+```bash
 git clone https://github.com/Yesh6599/mentorship-backend.git
-2 Navigate to the Project Folder
+```
+
+### 2 Navigate to Project Folder
+
+```bash
 cd mentorship-backend
-3 Install Dependencies
+```
+
+### 3 Install Dependencies
+
+```bash
 npm install
-4 Create Environment Variables
+```
 
-Create a .env file in the root folder and add the following:
+### 4 Create Environment Variables
 
+Create a `.env` file in the root directory.
+
+Example:
+
+```
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
-OPENAI_API_KEY=your_llm_api_key
-5 Start the Server
+OPENAI_API_KEY=your_ai_api_key
+```
+
+### 5 Start the Server
+
+```bash
 npm start
+```
 
-The server will run at:
+Server will run at:
 
+```
 http://localhost:5000
-Environment Variables
+```
 
-The project requires the following environment variables:
+---
 
-Variable	Description
-PORT	Server port
-MONGO_URI	MongoDB connection string
-JWT_SECRET	Secret key for JWT authentication
-OPENAI_API_KEY	API key for AI summarization
-API Documentation
+## Environment Variables
+
+| Variable | Description |
+|--------|-------------|
+| PORT | Server port |
+| MONGO_URI | MongoDB connection string |
+| JWT_SECRET | Secret key for JWT authentication |
+| OPENAI_API_KEY | API key for AI summarization |
+
+---
+
+## API Endpoints
 
 Base URL
 
+```
 http://localhost:5000/api
-Authentication APIs
-Signup
+```
 
-POST /auth/signup
+---
 
-Request Body
+### Authentication
 
+#### Signup
+
+POST `/api/auth/signup`
+
+Example request:
+
+```json
 {
-"name": "John",
-"email": "john@test.com",
-"password": "123456",
-"role": "parent"
-}
-
-Response
-
-User created successfully
-Login
-
-POST /auth/login
-
-Request Body
-
-{
-"email": "john@test.com",
+"name": "Yash",
+"email": "yash@test.com",
 "password": "123456"
 }
+```
 
-Response
+Response:
 
+```
+User created successfully
+```
+
+---
+
+#### Login
+
+POST `/api/auth/login`
+
+Example request:
+
+```json
+{
+"email": "yash@test.com",
+"password": "123456"
+}
+```
+
+Response:
+
+```json
 {
 "token": "JWT_TOKEN"
 }
-Student APIs
-Create Student
+```
 
-POST /students
+---
 
-Example Body
+### Students API
 
+#### Create Student
+
+POST `/api/students`
+
+```json
 {
 "name": "Student Name",
 "age": 12
 }
-Get Students
+```
 
-GET /students
+---
 
-Returns all students belonging to the authenticated parent.
+#### Get Students
 
-Lesson APIs
-Create Lesson
+GET `/api/students`
 
-POST /lessons
+Returns all students belonging to the authenticated user.
 
-Example Body
+---
 
+### Lessons API
+
+#### Create Lesson
+
+POST `/api/lessons`
+
+```json
 {
 "title": "Math Basics",
-"description": "Introduction to algebra"
+"description": "Introduction to Algebra"
 }
-Booking APIs
-Book Lesson
+```
 
-POST /bookings
+---
 
-Example Body
+#### Get Lessons
 
+GET `/api/lessons`
+
+Returns all available lessons.
+
+---
+
+### Booking API
+
+#### Book Lesson
+
+POST `/api/bookings`
+
+```json
 {
 "studentId": "STUDENT_ID",
 "lessonId": "LESSON_ID"
 }
-AI Lesson Summarization API
-Summarize Lesson Content
+```
 
-POST /llm/summarize
+---
 
-Example Request
+## LLM Summarization
 
-{
-"text": "Long lesson content..."
-}
+### Endpoint
 
-Example Response
-
-{
-"summary": "Short AI generated summary"
-}
-
-Rules:
-
-Text must be at least 50 characters
-
-The summary returns 3–6 bullet points or a short paragraph under 120 words
-
-Testing the API
-
-All APIs can be tested using Postman.
+POST `/api/llm/summarize`
 
 Example request:
 
-POST http://localhost:5000/api/auth/signup
-Security Features
+```json
+{
+"text": "Long lesson content..."
+}
+```
 
-Password hashing using bcrypt
+Example response:
 
-JWT authentication
+```json
+{
+"summary": "Short AI generated summary"
+}
+```
 
-Protected routes
+Rules:
 
-Environment variables for sensitive data
+- Minimum 50 characters
+- Maximum 120 words
+- Output 3–6 bullet points or a short paragraph
 
-Author
+---
 
-Yash Shukla
-Backend Developer Candidate
+## Assumptions & Notes
 
-Repository
+- JWT is used for authentication.
+- Passwords are hashed using bcrypt.
+- Only authenticated users can access protected routes.
+- AI summarization uses an external LLM API.
 
-GitHub Repository
+---
 
+## Author
+
+Yashasvi Shukla
+
+---
+
+## Repository
+
+```
 https://github.com/Yesh6599/mentorship-backend
+```
